@@ -11,6 +11,7 @@ namespace ConsoleCafe
             PintDish pintDish = new PintDish(numberOfPints);
             pintDish.PintStarted += PintDish_PintStarted;
             pintDish.PintCompleted += PintDish_PintCompleted;
+            pintDish.DishHalfway += PintDish_DishHalfway;
 
             for (int i = 0; i < numberOfPints ; i++)
             {
@@ -25,6 +26,11 @@ namespace ConsoleCafe
             }
 
             Console.ReadKey();
+        }
+
+        private static void PintDish_DishHalfway(object sender, EventArgs e)
+        {
+            Console.WriteLine($"Dish halfway, get ready...");
         }
 
         private static void PintDish_PintStarted(object sender, EventArgs e)
