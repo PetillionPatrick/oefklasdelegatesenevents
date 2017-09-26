@@ -21,16 +21,27 @@ namespace WpfCafe
     /// </summary>
     public partial class MainWindow : Window
     {
-
+        private PintDish pintDish;
+        int numberOfPints = 5;
         public MainWindow()
         {
             InitializeComponent();
 
-            int numberOfPints = 5;
-            PintDish pintDish = new PintDish(numberOfPints);
+            
+            pintDish = new PintDish(numberOfPints);
+            pintDish.PintStarted += PintDish_PintStarted;
+            pintDish.DishCompleted += PintDish_DishCompleted;
         }
 
+        private void PintDish_DishCompleted(object sender, DishCompletedArgs e)
+        {
+            lblMessage.Content = ($"Dish completed in {e.CreationTimeNeeded.TotalMilliseconds} ms, enjoy your drinks!");
+        }
 
+        private void PintDish_PintStarted(object sender, EventArgs e)
+        {
+            AddPintImage();
+        }
 
         private void AddPintImage()
         {
@@ -42,7 +53,17 @@ namespace WpfCafe
             spPints.Children.Add(img);
         }
 
-
-
+        private void btnPintPlease_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                pintDish.AddPint();
+                lblCountPints.Content = ($"{pintDish.PintCount}/{numberOfPints}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show (ex.Message);
+            }
+        }
     }
 }
