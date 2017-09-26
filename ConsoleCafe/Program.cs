@@ -30,7 +30,6 @@ namespace ConsoleCafe
             Console.ReadKey();
         }
 
-        
 
         private static void PintDish_PintStarted(object sender, EventArgs e)
         {
