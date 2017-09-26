@@ -9,14 +9,18 @@ namespace LibCafe
 {
     public delegate void PintStartedHandler(object sender, EventArgs e);
     public delegate void PintCompletedHandler(object sender, PintCompletedArgs e);
+    public delegate void DishHalfwayHandler(object sender, EventArgs e);
+    public delegate void DishCompletedHandler(object sender, EventArgs e);
 
     public class PintDish
     {
         public event PintStartedHandler PintStarted;
         public event PintCompletedHandler PintCompleted;
+        public event DishHalfwayHandler DishHalfway;
+        public event DishCompletedHandler DishCompleted;
 
         private int pintCount;
-
+        
         public int PintCount { get { return pintCount; } } // c#6.0 enkel get in property: set enkel in constructor
         public int MaxPints { get; }
 
@@ -31,6 +35,10 @@ namespace LibCafe
             PintStarted?.Invoke(this, EventArgs.Empty);
             pintCount++;
             PintCompleted?.Invoke(this, new PintCompletedArgs());
+            if ((Math.Ceiling(Convert.ToDecimal(MaxPints / 2)) == pintCount))
+                DishHalfway?.Invoke(this, EventArgs.Empty);
+           if (pintCount == MaxPints) DishCompleted?.Invoke(this, EventArgs.Empty);    
+
         }
     }
 
