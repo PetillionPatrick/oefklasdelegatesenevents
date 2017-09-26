@@ -8,24 +8,25 @@ namespace LibCafe
 {
     public delegate void LightsOnHandler(object sender, LightsOnEventArgs e);
     public delegate void LightsOfHandler(object sender, EventArgs e);
-    class LightSwitch
+    public class LightSwitch
     {
         public event LightsOnHandler LightsOn;
         public event LightsOfHandler LightsOf;
 
-        public int LightsPower = 0;
+        private string[] lightsPowers = { "Of", "On" };
+        public string LightsPower = "Of";
 
         public void SwitchLights()
         {
-            if (LightsPower == 0)
+            if (LightsPower == "Of")
             { 
                 LightsOn?.Invoke(this, new LightsOnEventArgs());
-                LightsPower = 1;
+                LightsPower = lightsPowers[1];
             }
-            if (LightsPower == 1)
+            if (LightsPower == "On")
             {
                 LightsOf?.Invoke(this, EventArgs.Empty);
-                LightsPower = 0;
+                LightsPower = lightsPowers[0];
             }
         }
 
